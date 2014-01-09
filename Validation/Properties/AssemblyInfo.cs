@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Small framework for checking and validating values with fluent programming")]
 [assembly: AssemblyCompany("Anthony Perez")]
 [assembly: AssemblyProduct("Validation")]
-[assembly: AssemblyCopyright("Copyright © Anthony Perez 2013")]
+[assembly: AssemblyCopyright("Copyright © Anthony Perez 2013-2014")]
 [assembly: ComVisible(false)]
 #if DEBUG
 [assembly: AssemblyVersion("0.0.*")]

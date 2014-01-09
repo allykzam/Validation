@@ -23,5 +23,7 @@ If any failures occur, they set an internal flag which is checked when the valid
 
 As an additional help, if you've imported the `Validation` namespace, there are two extension methods available, `AllMessages` and `AllExceptionTypes` which extend the `AggregateException` class, returning a concatenated string of the internal exception messages and types respectively, which should help you out depending on where you're logging your exceptions to. Obviously if the format I've chosen doesn't work for you, take a look at the code I wrote and feel free to come up with your own extensions with the formatting you'd prefer.
 
+This library is available under version 2.1 of the GNU Lesser General Public License. The full license is available in the LICENSE file, and additional information about contributors will be added to a CONTRIBUTORS file at a time when it is necessary.
+
 [1]: http://blog.getpaint.net/2008/12/06/a-fluent-approach-to-c-parameter-validation/
 [2]: https://github.com/octokit/octokit.net/blob/master/Octokit/Helpers/Ensure.cs
