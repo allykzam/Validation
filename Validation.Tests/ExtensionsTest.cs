@@ -309,7 +309,63 @@ namespace Validation.Tests
             ExceptionAssert.Throws<ValidationException>(() => Validate.Begin().IsNumeric("123", ""));
         }
 
-        
+
+
+        [TestMethod]
+        public void PassingTrue_IsTrue_Passes()
+        {
+            Validate.Begin().IsTrue(true, "value").Check();
+        }
+
+        [TestMethod]
+        public void PassingFalse_IsTrue_Fails()
+        {
+            var valid = Validate.Begin().IsTrue(false, "value");
+
+            ExceptionAssert.Throws<ValidationException>(() => valid.Check());
+        }
+
+        [TestMethod]
+        public void PassingNullName_IsTrue_Throws()
+        {
+            ExceptionAssert.Throws<ValidationException>(() => Validate.Begin().IsTrue(true, null));
+        }
+
+        [TestMethod]
+        public void PassingEmptyName_IsTrue_Throws()
+        {
+            ExceptionAssert.Throws<ValidationException>(() => Validate.Begin().IsTrue(true, ""));
+        }
+
+
+
+        [TestMethod]
+        public void PassingFalse_IsFalse_Passes()
+        {
+            Validate.Begin().IsFalse(false, "value").Check();
+        }
+
+        [TestMethod]
+        public void PassingTrhe_IsFalse_Fails()
+        {
+            var valid = Validate.Begin().IsFalse(true, "value");
+
+            ExceptionAssert.Throws<ValidationException>(() => valid.Check());
+        }
+
+        [TestMethod]
+        public void PassingNullName_IsFalse_Throws()
+        {
+            ExceptionAssert.Throws<ValidationException>(() => Validate.Begin().IsFalse(false, null));
+        }
+
+        [TestMethod]
+        public void PassingEmptyName_IsFalse_Throws()
+        {
+            ExceptionAssert.Throws<ValidationException>(() => Validate.Begin().IsFalse(false, ""));
+        }
+
+
 
         [TestMethod]
         public void PassingFalse_ValidateWhen_Skips()

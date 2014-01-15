@@ -12,6 +12,7 @@ namespace Validation
         internal const String ArgumentEmpty = "{0} is empty; a value must be provided";
         internal const String ArgumentOutOfRange = "{0}'s value of \"{1}\" is out of range; must be a value from \"{2}\" to \"{3}\"";
         internal const String ArgumentNotNumeric = "{0} must be a numeric string; actual value is \"{1}\"";
+        internal const String ArgumentBooleanWrong = "{0} must be {1}, but was {2}";
 
         /// <summary>
         /// Checks a value to ensure that it is not null
@@ -276,6 +277,82 @@ namespace Validation
         {
             if (validation.Item2)
                 return validation.Item1.IsNumeric(value, name);
+            else
+                return validation.Item1;
+        }
+
+        /// <summary>
+        /// Checks a value or expression to ensure that it evaluates to true
+        /// </summary>
+        /// <param name="validation">The Validation instance to carry forward</param>
+        /// <param name="value">The value or expression to check</param>
+        /// <param name="name">The name of the value</param>
+        /// <exception cref="ArgumentOutOfRangeException">Passed on in the return when the value or expression provided evaluates to false</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the name provided is null</exception>
+        /// <exception cref="ArgumentException">Thrown when the name provided is an empty string</exception>
+        public static Validation IsTrue(this Validation validation, Boolean value, String name)
+        {
+            Validate.Begin()
+                .IsNotNullOrEmpty(name, "name")
+                .Check();
+
+            if (value)
+                return validation;
+            else
+                return validation.GetInstance().AddException(new ArgumentOutOfRangeException(name, String.Format(ArgumentBooleanWrong, name, true, value)));
+        }
+
+        /// <summary>
+        /// If the previous condition was met, checks a value or expression to ensure that it evaluates to true
+        /// </summary>
+        /// <param name="validation">The Validation instance to carry forward, along with the result of the previous condition</param>
+        /// <param name="value">The value or expression to check</param>
+        /// <param name="name">The name of the value</param>
+        /// <exception cref="ArgumentOutOfRangeException">Passed on in the return when the value or expression provided evaluates to false</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the name provided is null</exception>
+        /// <exception cref="ArgumentException">Thrown when the name provided is an empty string</exception>
+        public static Validation IsTrue(this Tuple<Validation, Boolean> validation, Boolean value, String name)
+        {
+            if (validation.Item2)
+                return validation.Item1.IsTrue(value, name);
+            else
+                return validation.Item1;
+        }
+
+        /// <summary>
+        /// Checks a value or expression to ensure that it evaluates to false
+        /// </summary>
+        /// <param name="validation">The Validation instance to carry forward</param>
+        /// <param name="value">The value or expression to check</param>
+        /// <param name="name">The name of the value</param>
+        /// <exception cref="ArgumentOutOfRangeException">Passed on in the return when the value or expression provided evaluates to true</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the name provided is null</exception>
+        /// <exception cref="ArgumentException">Thrown when the name provided is an empty string</exception>
+        public static Validation IsFalse(this Validation validation, Boolean value, String name)
+        {
+            Validate.Begin()
+                .IsNotNullOrEmpty(name, "name")
+                .Check();
+
+            if (value)
+                return validation.GetInstance().AddException(new ArgumentOutOfRangeException(name, String.Format(ArgumentBooleanWrong, name, false, value)));
+            else
+                return validation;
+        }
+
+        /// <summary>
+        /// If the previous condition was met, checks a value or expression to ensure that it evaluates to false
+        /// </summary>
+        /// <param name="validation">The Validation instance to carry forward, along with the result of the previous condition</param>
+        /// <param name="value">The value or expression to check</param>
+        /// <param name="name">The name of the value</param>
+        /// <exception cref="ArgumentOutOfRangeException">Passed on in the return when the value or expression provided evaluates to true</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the name provided is null</exception>
+        /// <exception cref="ArgumentException">Thrown when the name provided is an empty string</exception>
+        public static Validation IsFalse(this Tuple<Validation, Boolean> validation, Boolean value, String name)
+        {
+            if (validation.Item2)
+                return validation.Item1.IsFalse(value, name);
             else
                 return validation.Item1;
         }
