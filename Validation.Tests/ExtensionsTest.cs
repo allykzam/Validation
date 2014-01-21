@@ -368,6 +368,60 @@ namespace Validation.Tests
 
 
         [TestMethod]
+        public void PassingValidClass_AreEqual_Passes()
+        {
+            Validate.Begin().AreEqual(Tuple.Create(5), Tuple.Create(5), "expectedValue", "actualValue").Check();
+        }
+
+        [TestMethod]
+        public void PassingValidValue_AreEqual_Passes()
+        {
+            Validate.Begin().AreEqual(5, 5, "expectedValue", "expectedValue").Check();
+        }
+
+        [TestMethod]
+        public void PassingUnmatchedClass_AreEqual_Fails()
+        {
+            var valid = Validate.Begin().AreEqual(Tuple.Create(5), Tuple.Create(3), "expectedValue", "actualValue");
+
+            ExceptionAssert.Throws<ValidationException>(() => valid.Check());
+        }
+
+        [TestMethod]
+        public void PassingUnmatchedValue_AreEqual_Fails()
+        {
+            var valid = Validate.Begin().AreEqual(5, 3, "expectedValue", "actualValue");
+
+            ExceptionAssert.Throws<ValidationException>(() => valid.Check());
+        }
+
+        [TestMethod]
+        public void PassingNullExName_AreEqual_Throws()
+        {
+            ExceptionAssert.Throws<ValidationException>(() => Validate.Begin().AreEqual(5, 5, null, "actualValue"));
+        }
+
+        [TestMethod]
+        public void PassingEmptyExName_AreEqual_Throws()
+        {
+            ExceptionAssert.Throws<ValidationException>(() => Validate.Begin().AreEqual(5, 5, "", "actualValue"));
+        }
+
+        [TestMethod]
+        public void PassingNullActName_AreEqual_Throws()
+        {
+            ExceptionAssert.Throws<ValidationException>(() => Validate.Begin().AreEqual(5, 5, "expectedValue", null));
+        }
+
+        [TestMethod]
+        public void PassingEmptyActName_AreEqual_Throws()
+        {
+            ExceptionAssert.Throws<ValidationException>(() => Validate.Begin().AreEqual(5, 5, "expectedValue", ""));
+        }
+
+
+
+        [TestMethod]
         public void PassingFalse_ValidateWhen_Skips()
         {
             Validate.Begin().ValidateWhen(false).IsNotNull<Object>(null, "value").Check();

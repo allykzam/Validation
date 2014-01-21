@@ -13,6 +13,7 @@ namespace Validation
         internal const String ArgumentOutOfRange = "{0}'s value of \"{1}\" is out of range; must be a value from \"{2}\" to \"{3}\"";
         internal const String ArgumentNotNumeric = "{0} must be a numeric string; actual value is \"{1}\"";
         internal const String ArgumentBooleanWrong = "{0} must be {1}, but was {2}";
+        internal const String ArgumentNotExpected = "The value of {0} does not match the expected value";
 
         /// <summary>
         /// Checks a value to ensure that it is not null
@@ -353,6 +354,53 @@ namespace Validation
         {
             if (validation.Item2)
                 return validation.Item1.IsFalse(value, name);
+            else
+                return validation.Item1;
+        }
+
+        /// <summary>
+        /// Validates that two values are either both null, or that the .Equals
+        /// method on their type returns true.
+        /// </summary>
+        /// <typeparam name="T">The type of values being compared</typeparam>
+        /// <param name="validation">The Validation instance to carry forward</param>
+        /// <param name="expected">The expected value or instance</param>
+        /// <param name="actual">The actual value or instance</param>
+        /// <param name="expectedName">The name of the expected value</param>
+        /// <param name="actualName">The name of the actual value</param>
+        /// <exception cref="ArgumentNullException">Thrown when one of the names provided is null</exception>
+        /// <exception cref="ArgumentException">Thrown when one of the names is empty, passed on in the return when the two values don't match</exception>
+        public static Validation AreEqual<T>(this Validation validation, T expected, T actual, String expectedName, String actualName)
+        {
+            Validate.Begin()
+                .IsNotNullOrEmpty(expectedName, "expectedName")
+                .IsNotNullOrEmpty(actualName, "actualName")
+                .Check();
+
+            if (expected == null && actual == null)
+                return validation;
+            else if (expected.Equals(actual))
+                return validation;
+            else
+                return validation.GetInstance().AddException(new ArgumentException(String.Format(ArgumentNotExpected, actualName), actualName));
+        }
+
+        /// <summary>
+        /// Validates that two values are either both null, or that the .Equals
+        /// method on their type returns true.
+        /// </summary>
+        /// <typeparam name="T">The type of values being compared</typeparam>
+        /// <param name="validation">The Validation instance to carry forward, along with the result of the previous condition</param>
+        /// <param name="expected">The expected value or instance</param>
+        /// <param name="actual">The actual value or instance</param>
+        /// <param name="expectedName">The name of the expected value</param>
+        /// <param name="actualName">The name of the actual value</param>
+        /// <exception cref="ArgumentNullException">Thrown when one of the names provided is null</exception>
+        /// <exception cref="ArgumentException">Thrown when one of the names is empty, passed on in the return when the two values don't match</exception>
+        public static Validation AreEqual<T>(this Tuple<Validation, Boolean> validation, T expected, T actual, String expectedName, String actualName)
+        {
+            if (validation.Item2)
+                return validation.Item1.AreEqual(expected, actual, expectedName, actualName);
             else
                 return validation.Item1;
         }
