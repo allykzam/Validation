@@ -432,5 +432,55 @@ namespace Validation.Tests
         {
             ExceptionAssert.Throws<ValidationException>(() => Validate.Begin().ValidateWhen(true).IsNotNull<Object>(null, "value").Check());
         }
+
+
+
+        [TestMethod]
+        public void NullLength_Null_Matches()
+        {
+            var result = ((string[])null).NullLength();
+
+            Assert.AreEqual(-1, result);
+        }
+
+        [TestMethod]
+        public void NullLength_NotNull_Matches()
+        {
+            var result = (new string[] { }).NullLength();
+
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void NullLength_NullWithZero_Matches()
+        {
+            var result = ((string[])null).NullLength(zeroBase: true);
+
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void NullLength_NullWithoutZero_Matches()
+        {
+            var result = ((string[])null).NullLength(zeroBase: false);
+
+            Assert.AreEqual(-1, result);
+        }
+
+        [TestMethod]
+        public void NullLength_NotNullWithZero_Matches()
+        {
+            var result = (new string[] {}).NullLength(zeroBase: true);
+
+            Assert.AreEqual(0, result);
+        }
+
+        [TestMethod]
+        public void NullLength_NotNullWithoutZero_Matches()
+        {
+            var result = (new string[] {}).NullLength(zeroBase: false);
+
+            Assert.AreEqual(0, result);
+        }
     }
 }

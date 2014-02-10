@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -437,6 +438,46 @@ namespace Validation
             {
                 validation.ObserveExceptions();
                 return validation;
+            }
+        }
+
+        /// <summary>
+        /// Gets the number of elements in an IEnumerable without triggering a
+        /// <seealso cref="NullReferenceException"/> if the collection is null
+        /// </summary>
+        /// <typeparam name="T">
+        /// The data-type contained in the collection
+        /// </typeparam>
+        /// <param name="data">
+        /// The collection
+        /// </param>
+        /// <param name="zeroBase">
+        /// If true, a null collection will result in a return value of zero,
+        /// if false, a null collection will result in a return value of
+        /// negative one
+        /// </param>
+        /// <returns>
+        /// If <paramref name="zeroBase"/> is true and the collection is null,
+        /// returns 0. If <paramref name="zeroBase"/> is false and the
+        /// collection is null, returns -1. If the collection is not null,
+        /// returns the result of calling .Count() on the collection.
+        /// </returns>
+        public static Int32 NullLength<T>(this IEnumerable<T> data, Boolean zeroBase = false)
+        {
+            if (data == null)
+            {
+                if (zeroBase)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            else
+            {
+                return data.Count();
             }
         }
     }
