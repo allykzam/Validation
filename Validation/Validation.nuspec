@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>amazingant.Validation</id>
+    <version>$version$</version>
+    <authors>Anthony Perez</authors>
+    <licenseUrl>https://raw.githubusercontent.com/amazingant/Validation/40412d9cac6be4ead225e2f742cbc3b5c5f462d1/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/amazingant/Validation</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Small framework for checking and validating values with fluent programming</description>
+    <copyright>Copyright © Anthony Perez 2014</copyright>
+  </metadata>
+</package>
